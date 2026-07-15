@@ -72,11 +72,11 @@
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\JsonAdapter\Engine;$(ProjectDir)src\JsonAdapter\AtomicWrite;$(ProjectDir)src\JsonAdapter\Repositories;$(ProjectDir)src\ConsoleAdapter\Views;$(ProjectDir)src\ConsoleAdapter\ViewModels;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -88,13 +88,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\JsonAdapter\Engine;$(ProjectDir)src\JsonAdapter\AtomicWrite;$(ProjectDir)src\JsonAdapter\Repositories;$(ProjectDir)src\ConsoleAdapter\Views;$(ProjectDir)src\ConsoleAdapter\ViewModels;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -106,11 +106,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\JsonAdapter\Engine;$(ProjectDir)src\JsonAdapter\AtomicWrite;$(ProjectDir)src\JsonAdapter\Repositories;$(ProjectDir)src\ConsoleAdapter\Views;$(ProjectDir)src\ConsoleAdapter\ViewModels;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,13 +122,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\JsonAdapter\Engine;$(ProjectDir)src\JsonAdapter\AtomicWrite;$(ProjectDir)src\JsonAdapter\Repositories;$(ProjectDir)src\ConsoleAdapter\Views;$(ProjectDir)src\ConsoleAdapter\ViewModels;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,6 +140,38 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Composition\main.cpp" />
+    <ClCompile Include="src\JsonAdapter\Engine\JsonParser.cpp" />
+    <ClCompile Include="src\JsonAdapter\Engine\JsonStore.cpp" />
+    <ClCompile Include="src\JsonAdapter\Engine\JsonValue.cpp" />
+    <ClCompile Include="src\JsonAdapter\Engine\JsonWriter.cpp" />
+    <ClCompile Include="src\JsonAdapter\AtomicWrite\AtomicWrite.cpp" />
+    <ClCompile Include="src\JsonAdapter\AtomicWrite\Win32AtomicFileOperations.cpp" />
+    <ClCompile Include="src\JsonAdapter\Repositories\Guid.cpp" />
+    <ClCompile Include="src\JsonAdapter\Repositories\SampleDocument.cpp" />
+    <ClCompile Include="src\JsonAdapter\Repositories\SampleRecord.cpp" />
+    <ClCompile Include="src\JsonAdapter\Repositories\SampleRepository.cpp" />
+    <ClCompile Include="src\ConsoleAdapter\Views\ConsoleView.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\JsonAdapter\Engine\JsonParser.h" />
+    <ClInclude Include="src\JsonAdapter\Engine\JsonStore.h" />
+    <ClInclude Include="src\JsonAdapter\Engine\JsonValue.h" />
+    <ClInclude Include="src\JsonAdapter\Engine\JsonWriter.h" />
+    <ClInclude Include="src\JsonAdapter\AtomicWrite\AtomicWrite.h" />
+    <ClInclude Include="src\JsonAdapter\AtomicWrite\IAtomicFileOperations.h" />
+    <ClInclude Include="src\JsonAdapter\AtomicWrite\Win32AtomicFileOperations.h" />
+    <ClInclude Include="src\JsonAdapter\Repositories\Guid.h" />
+    <ClInclude Include="src\JsonAdapter\Repositories\SampleDocument.h" />
+    <ClInclude Include="src\JsonAdapter\Repositories\SampleRecord.h" />
+    <ClInclude Include="src\JsonAdapter\Repositories\SampleRepository.h" />
+    <ClInclude Include="src\ConsoleAdapter\Views\ConsoleView.h" />
+    <ClInclude Include="src\ConsoleAdapter\Views\IView.h" />
+    <ClInclude Include="src\ConsoleAdapter\ViewModels\SampleRegistrationInput.h" />
+    <ClInclude Include="src\ConsoleAdapter\ViewModels\SampleRegistrationResult.h" />
+    <ClInclude Include="src\ConsoleAdapter\ViewModels\SampleViewModel.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

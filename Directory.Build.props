@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  프로젝트 공통 컴파일 옵션. /W4 /WX로 검증하되, 외부 벤더 코드(GoogleTest/GoogleMock)는
+  TreatAngleIncludeAsExternal + ExternalWarningLevel로 경고-에러 대상에서 제외한다
+  (CLAUDE.md Harness 규칙 참고).
+
+  한글 주석이 든 소스 파일은 BOM 없는 UTF-8이라, /utf-8 없이 빌드하면 MSVC가 시스템
+  코드페이지(949)로 해석해 C4819를 낸다. /WX가 켜져 있으면 이게 곧 빌드 실패가 되므로
+  /utf-8을 여기서 공통 적용한다.
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <TreatAngleIncludeAsExternal>true</TreatAngleIncludeAsExternal>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+</Project>
