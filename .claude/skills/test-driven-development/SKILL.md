@@ -73,34 +73,37 @@ digraph tdd_cycle {
 Write one minimal test showing what should happen.
 
 <Good>
-```typescript
-test('retries failed operations 3 times', async () => {
-  let attempts = 0;
-  const operation = () => {
-    attempts++;
-    if (attempts < 3) throw new Error('fail');
-    return 'success';
-  };
+```cpp
+TEST(RetryOperationTest, RetriesFailedOperationThreeTimes) {
+    int attempts = 0;
+    auto operation = [&attempts]() -> std::string {
+        ++attempts;
+        if (attempts < 3) throw std::runtime_error("fail");
+        return "success";
+    };
 
-  const result = await retryOperation(operation);
+    std::string result = RetryOperation(operation);
 
-  expect(result).toBe('success');
-  expect(attempts).toBe(3);
-});
+    EXPECT_EQ(result, "success");
+    EXPECT_EQ(attempts, 3);
+}
 ```
 Clear name, tests real behavior, one thing
 </Good>
 
 <Bad>
-```typescript
-test('retry works', async () => {
-  const mock = jest.fn()
-    .mockRejectedValueOnce(new Error())
-    .mockRejectedValueOnce(new Error())
-    .mockResolvedValueOnce('success');
-  await retryOperation(mock);
-  expect(mock).toHaveBeenCalledTimes(3);
-});
+```cpp
+TEST(RetryOperationTest, RetryWorks) {
+    MockOperation mock;
+    EXPECT_CALL(mock, Call())
+        .WillOnce(Throw(std::runtime_error("fail")))
+        .WillOnce(Throw(std::runtime_error("fail")))
+        .WillOnce(Return("success"));
+
+    RetryOperation(mock.AsCallable());
+
+    // mock 호출 횟수만 확인, 실제 반환값은 검증하지 않음
+}
 ```
 Vague name, tests mock not code
 </Bad>
@@ -115,7 +118,8 @@ Vague name, tests mock not code
 **MANDATORY. Never skip.**
 
 ```bash
-npm test path/to/test.test.ts
+# 이 프로젝트: Phase 0에서 확정되는 단일 verify 명령(README.md 참고)으로 대상
+# 테스트만 우선 실행한다. 확정 전에는 MSBuild + GoogleTest 러너로 직접 실행.
 ```
 
 Confirm:
@@ -132,32 +136,28 @@ Confirm:
 Write simplest code to pass the test.
 
 <Good>
-```typescript
-async function retryOperation<T>(fn: () => Promise<T>): Promise<T> {
-  for (let i = 0; i < 3; i++) {
-    try {
-      return await fn();
-    } catch (e) {
-      if (i === 2) throw e;
+```cpp
+template <typename Fn>
+auto RetryOperation(Fn operation) -> decltype(operation()) {
+    for (int i = 0; i < 3; ++i) {
+        try {
+            return operation();
+        } catch (const std::exception&) {
+            if (i == 2) throw;
+        }
     }
-  }
-  throw new Error('unreachable');
+    throw std::logic_error("unreachable");
 }
 ```
 Just enough to pass
 </Good>
 
 <Bad>
-```typescript
-async function retryOperation<T>(
-  fn: () => Promise<T>,
-  options?: {
-    maxRetries?: number;
-    backoff?: 'linear' | 'exponential';
-    onRetry?: (attempt: number) => void;
-  }
-): Promise<T> {
-  // YAGNI
+```cpp
+template <typename Fn>
+auto RetryOperation(Fn operation, RetryOptions options = {}) -> decltype(operation()) {
+    // maxRetries, backoff 전략, onRetry 콜백까지 미리 준비
+    // — 지금 테스트는 "3번 재시도"만 요구한다. YAGNI.
 }
 ```
 Over-engineered
@@ -170,7 +170,7 @@ Don't add features, refactor other code, or "improve" beyond the test.
 **MANDATORY.**
 
 ```bash
-npm test path/to/test.test.ts
+# 이 프로젝트: 위와 동일 — 확정된 verify 명령 또는 GoogleTest 러너로 재실행.
 ```
 
 Confirm:
@@ -292,32 +292,33 @@ Tests-first force edge case discovery before implementing. Tests-after verify yo
 **Bug:** Empty email accepted
 
 **RED**
-```typescript
-test('rejects empty email', async () => {
-  const result = await submitForm({ email: '' });
-  expect(result.error).toBe('Email required');
-});
+```cpp
+TEST(SubmitFormTest, RejectsEmptyEmail) {
+    FormData data{.email = ""};
+    SubmitResult result = SubmitForm(data);
+    EXPECT_EQ(result.error, "Email required");
+}
 ```
 
 **Verify RED**
 ```bash
-$ npm test
-FAIL: expected 'Email required', got undefined
+$ <프로젝트 verify 명령 또는 GoogleTest 러너>
+FAIL: expected "Email required", got ""
 ```
 
 **GREEN**
-```typescript
-function submitForm(data: FormData) {
-  if (!data.email?.trim()) {
-    return { error: 'Email required' };
-  }
-  // ...
+```cpp
+SubmitResult SubmitForm(const FormData& data) {
+    if (Trim(data.email).empty()) {
+        return SubmitResult{.error = "Email required"};
+    }
+    // ...
 }
 ```
 
 **Verify GREEN**
 ```bash
-$ npm test
+$ <프로젝트 verify 명령 또는 GoogleTest 러너>
 PASS
 ```
 
