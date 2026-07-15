@@ -48,8 +48,18 @@ function Find-MSBuild {
 }
 
 function Find-ClangFormat {
+    # 1) PATH에 있으면 그대로 사용(가장 빠름).
     $cmd = Get-Command clang-format.exe -ErrorAction SilentlyContinue
     if ($cmd) { return $cmd.Source }
+
+    # 2) VS의 알려진 고정 설치 경로 패턴만 확인(재귀 없이, ~30ms 수준). clang-format.exe가
+    #    PATH에 없는 게 보통이라 verify.ps1을 실행할 때마다 이 경로를 타는데, -Recurse 전체
+    #    검색(~300ms)보다 이쪽이 매번 반복해도 훨씬 저렴하다.
+    $known = Get-ChildItem -Path "${env:ProgramFiles}\Microsoft Visual Studio\*\*\VC\Tools\Llvm\x64\bin\clang-format.exe" `
+        -ErrorAction SilentlyContinue
+    if ($known) { return ($known | Sort-Object FullName | Select-Object -First 1).FullName }
+
+    # 3) 비표준 설치 위치 대비 최후 폴백(느린 전체 재귀 검색).
     $candidates = Get-ChildItem "${env:ProgramFiles}\Microsoft Visual Studio" `
         -Recurse -Filter "clang-format.exe" -ErrorAction SilentlyContinue |
         Where-Object { $_.FullName -match '\\x64\\' } |
