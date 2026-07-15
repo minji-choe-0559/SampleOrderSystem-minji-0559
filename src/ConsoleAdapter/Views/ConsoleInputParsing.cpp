@@ -27,7 +27,7 @@ bool HasOnlyTrailingWhitespace(const std::string& line, size_t consumed) {
 
 }  // namespace
 
-std::optional<int> ParseMenuChoice(const std::string& line) {
+std::optional<int> ParseInt(const std::string& line) {
     if (IsBlank(line)) {
         return std::nullopt;
     }
@@ -42,6 +42,8 @@ std::optional<int> ParseMenuChoice(const std::string& line) {
         return std::nullopt;
     }
 }
+
+std::optional<int> ParseMenuChoice(const std::string& line) { return ParseInt(line); }
 
 std::optional<double> ParseDouble(const std::string& line) {
     if (IsBlank(line)) {

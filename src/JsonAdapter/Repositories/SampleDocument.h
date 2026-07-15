@@ -7,18 +7,14 @@
 
 namespace SampleOrderSystem {
 
-// docs/DATA_CONTRACT.md v1 계약({schemaVersion, records})의 스키마 검증 책임을 전담한다.
-// JsonStore/JsonParser/JsonWriter(엔진 계층)는 그대로 두고, 이 계층에서만 schemaVersion 검사와
-// bare array(구형 JSON_CRUD 포맷) 거부를 수행한다.
+// SampleRecord 배열 <-> JsonValue 배열 변환만 전담한다. 문서 루트/schemaVersion 검증은
+// SharedDocument로 옮겨졌다 — Sample/Order/ProductionJob이 하나의 공유 문서를 쓰기 때문
+// (PRD.md 5.5.5).
 namespace SampleDocument {
-
-inline constexpr int kCurrentSchemaVersion = 1;
 
 JsonValue toJson(const std::vector<SampleRecord>& records);
 
-// document가 object 루트가 아니거나(구형 bare array 포함), schemaVersion이 없거나 지원 범위를
-// 벗어나거나, records 필드가 없거나 배열이 아니면 std::runtime_error를 던진다.
-std::vector<SampleRecord> fromJson(const JsonValue& document);
+std::vector<SampleRecord> fromJson(const std::vector<JsonValue>& items);
 
 }  // namespace SampleDocument
 
