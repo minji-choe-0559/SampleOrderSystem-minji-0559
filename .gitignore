@@ -1,0 +1,23 @@
+# Visual Studio
+.vs/
+*.vcxproj.user
+*.sln.docstates
+
+# Build output
+Debug/
+Release/
+x64/
+x86/
+Win32/
+*.obj
+*.pdb
+*.ilk
+*.exe
+*.log
+
+# NuGet
+packages/
+*.nupkg
+
+# Test results
+TestResults/
