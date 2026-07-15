@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <iomanip>
 #include <sstream>
 #include <stdexcept>
@@ -36,6 +37,30 @@ class FakeOrderRepository : public IOrderRepository {
     }
 
     std::vector<Order> readAll() const override { return orders_; }
+
+    std::optional<Order> findByOrderNumber(const std::string& orderNumber) const override {
+        auto it = std::find_if(orders_.begin(), orders_.end(), [&](const Order& order) {
+            return order.orderNumber == orderNumber;
+        });
+        if (it == orders_.end()) {
+            return std::nullopt;
+        }
+        return *it;
+    }
+
+    std::optional<Order> updateStatus(const std::string& orderNumber,
+                                      OrderStatus newStatus) override {
+        auto it = std::find_if(orders_.begin(), orders_.end(), [&](const Order& order) {
+            return order.orderNumber == orderNumber;
+        });
+        if (it == orders_.end()) {
+            return std::nullopt;
+        }
+        it->status = newStatus;
+        return *it;
+    }
+
+    void Seed(const Order& order) { orders_.push_back(order); }
 
   private:
     static std::string Trim(const std::string& text) {

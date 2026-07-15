@@ -20,6 +20,11 @@ class ISampleRepository {
     virtual std::vector<SampleRecord> readAll() const = 0;
 
     virtual std::optional<SampleRecord> findBySampleCode(const std::string& sampleCode) const = 0;
+
+    // sampleCode를 찾지 못하면 std::nullopt를 반환한다(예외 아님). delta 적용 후 재고가 음수가
+    // 되면 std::invalid_argument를 던진다(PRD.md 5.4 — 재고 충분 판정 후에만 호출되므로 정상
+    // 흐름에서는 도달하지 않지만, Repository가 최종 방어선을 유지한다).
+    virtual std::optional<SampleRecord> adjustStock(const std::string& sampleCode, int delta) = 0;
 };
 
 }  // namespace SampleOrderSystem

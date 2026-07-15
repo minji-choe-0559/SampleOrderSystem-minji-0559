@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -16,6 +17,12 @@ class IOrderRepository {
                          int quantity) = 0;
 
     virtual std::vector<Order> readAll() const = 0;
+
+    virtual std::optional<Order> findByOrderNumber(const std::string& orderNumber) const = 0;
+
+    // orderNumber를 찾지 못하면 std::nullopt를 반환한다(예외 아님).
+    virtual std::optional<Order> updateStatus(const std::string& orderNumber,
+                                              OrderStatus newStatus) = 0;
 };
 
 }  // namespace SampleOrderSystem

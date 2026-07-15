@@ -25,6 +25,9 @@ class SampleRepository : public ISampleRepository {
 
     std::optional<SampleRecord> findBySampleCode(const std::string& sampleCode) const override;
 
+    // Phase 3(주문 승인)에서 재고 충분 판정 시 즉시 차감하는 데 쓴다(PRD.md 5.4 확정).
+    std::optional<SampleRecord> adjustStock(const std::string& sampleCode, int delta) override;
+
     // currentSampleCode로 대상을 찾지 못하면 std::nullopt를 반환한다(예외 아님).
     // newSampleCode가 자기 자신을 제외한 다른 레코드와 중복되면 std::invalid_argument를 던진다.
     // Phase 1(시료 관리)에는 수정 기능이 없어 ISampleRepository Port에는 노출하지 않는다 — 필요한

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -18,6 +19,11 @@ class OrderRepository : public IOrderRepository {
                  int quantity) override;
 
     std::vector<Order> readAll() const override;
+
+    std::optional<Order> findByOrderNumber(const std::string& orderNumber) const override;
+
+    std::optional<Order> updateStatus(const std::string& orderNumber,
+                                      OrderStatus newStatus) override;
 
   private:
     void writeAll(const std::vector<Order>& orders) const;

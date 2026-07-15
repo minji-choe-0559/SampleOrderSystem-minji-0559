@@ -1,5 +1,6 @@
 #include "OrderRepository.h"
 
+#include <algorithm>
 #include <iomanip>
 #include <sstream>
 #include <stdexcept>
@@ -65,6 +66,29 @@ Order OrderRepository::create(const std::string& sampleCode, const std::string& 
     orders.push_back(order);
     writeAll(orders);
     return order;
+}
+
+std::optional<Order> OrderRepository::findByOrderNumber(const std::string& orderNumber) const {
+    std::vector<Order> orders = readAll();
+    auto it = std::find_if(orders.begin(), orders.end(),
+                           [&](const Order& order) { return order.orderNumber == orderNumber; });
+    if (it == orders.end()) {
+        return std::nullopt;
+    }
+    return *it;
+}
+
+std::optional<Order> OrderRepository::updateStatus(const std::string& orderNumber,
+                                                   OrderStatus newStatus) {
+    std::vector<Order> orders = readAll();
+    auto it = std::find_if(orders.begin(), orders.end(),
+                           [&](const Order& order) { return order.orderNumber == orderNumber; });
+    if (it == orders.end()) {
+        return std::nullopt;
+    }
+    it->status = newStatus;
+    writeAll(orders);
+    return *it;
 }
 
 }  // namespace SampleOrderSystem

@@ -54,6 +54,21 @@ class FakeSampleRepository : public ISampleRepository {
         return *it;
     }
 
+    std::optional<SampleRecord> adjustStock(const std::string& sampleCode, int delta) override {
+        auto it = std::find_if(records_.begin(), records_.end(), [&](const SampleRecord& record) {
+            return record.sampleCode == sampleCode;
+        });
+        if (it == records_.end()) {
+            return std::nullopt;
+        }
+        int newStock = it->stock + delta;
+        if (newStock < 0) {
+            throw std::invalid_argument("FakeSampleRepository: stock must be >= 0");
+        }
+        it->stock = newStock;
+        return *it;
+    }
+
     void Seed(const SampleRecord& record) { records_.push_back(record); }
 
   private:

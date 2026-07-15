@@ -5,13 +5,19 @@
 
 #include <iostream>
 
+#include "ApproveOrderUseCase.h"
 #include "ConsoleInputParsing.h"
+#include "ConsoleOrderApprovalView.h"
 #include "ConsoleOrderView.h"
 #include "ConsoleView.h"
+#include "ListReservedOrdersUseCase.h"
 #include "ListSamplesUseCase.h"
+#include "OrderApprovalController.h"
 #include "OrderController.h"
 #include "OrderRepository.h"
+#include "ProductionQueueRepository.h"
 #include "RegisterSampleUseCase.h"
+#include "RejectOrderUseCase.h"
 #include "ReserveOrderUseCase.h"
 #include "SampleController.h"
 #include "SampleRepository.h"
@@ -24,6 +30,7 @@ void ShowMainMenu() {
     std::cout << "\n=== 반도체 시료 생산주문관리 시스템 ===\n"
               << "[1] 시료 관리\n"
               << "[2] 시료 주문\n"
+              << "[3] 주문 승인/거절\n"
               << "[0] 종료\n"
               << "선택 > ";
 }
@@ -47,12 +54,17 @@ int main(int argc, char** argv) {
     using namespace SampleOrderSystem;
 
     SampleRepository sampleRepository(kDataPath);
-    OrderRepository orderRepository(kDataPath);  // Sample과 같은 공유 문서(PRD.md 5.5.5)
+    OrderRepository orderRepository(kDataPath);  // Sample과 같은 공유 문서(PRD 5.5.5)
+    ProductionQueueRepository productionQueueRepository(kDataPath);  // 위와 동일 문서 공유
 
     RegisterSampleUseCase registerUseCase(sampleRepository);
     ListSamplesUseCase listUseCase(sampleRepository);
     SearchSampleUseCase searchUseCase(sampleRepository);
     ReserveOrderUseCase reserveUseCase(sampleRepository, orderRepository);
+    ListReservedOrdersUseCase listReservedUseCase(orderRepository);
+    ApproveOrderUseCase approveUseCase(orderRepository, sampleRepository,
+                                       productionQueueRepository);
+    RejectOrderUseCase rejectUseCase(orderRepository);
 
     ConsoleView sampleView;
     SampleController sampleController(sampleView, registerUseCase, listUseCase, searchUseCase);
@@ -60,8 +72,12 @@ int main(int argc, char** argv) {
     ConsoleOrderView orderView;
     OrderController orderController(orderView, reserveUseCase);
 
-    // 아직 구현되지 않은 메인 메뉴 항목(주문 승인/거절, 모니터링, 생산 라인, 출고 처리)은 해당
-    // Phase가 끝날 때마다 하나씩 여기에 채워 넣는다(Phase 0에서 결정한 방식).
+    ConsoleOrderApprovalView orderApprovalView;
+    OrderApprovalController orderApprovalController(orderApprovalView, listReservedUseCase,
+                                                    approveUseCase, rejectUseCase);
+
+    // 아직 구현되지 않은 메인 메뉴 항목(모니터링, 생산 라인, 출고 처리)은 해당 Phase가 끝날 때마다
+    // 하나씩 여기에 채워 넣는다(Phase 0에서 결정한 방식).
     bool running = true;
     while (running) {
         ShowMainMenu();
@@ -75,6 +91,9 @@ int main(int argc, char** argv) {
                 break;
             case 2:
                 orderController.Run();
+                break;
+            case 3:
+                orderApprovalController.Run();
                 break;
             case 0:
                 running = false;

@@ -97,6 +97,25 @@ std::optional<SampleRecord> SampleRepository::findBySampleCode(
     return *it;
 }
 
+std::optional<SampleRecord> SampleRepository::adjustStock(const std::string& sampleCode,
+                                                          int delta) {
+    std::vector<SampleRecord> records = readAll();
+    auto it = std::find_if(records.begin(), records.end(), [&](const SampleRecord& record) {
+        return record.sampleCode == sampleCode;
+    });
+    if (it == records.end()) {
+        return std::nullopt;
+    }
+
+    int newStock = it->stock + delta;
+    if (newStock < 0) {
+        throw std::invalid_argument("SampleRepository: stock must be >= 0");
+    }
+    it->stock = newStock;
+    writeAll(records);
+    return *it;
+}
+
 std::optional<SampleRecord> SampleRepository::update(const std::string& currentSampleCode,
                                                      const std::string& newSampleCode,
                                                      const std::string& name, double avgProcessTime,
