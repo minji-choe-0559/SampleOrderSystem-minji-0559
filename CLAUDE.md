@@ -44,6 +44,7 @@
   "재고 여유/부족/고갈 임계치"를 다루지 않으므로, 이 결정은 여전히 보류 상태다.
 - Order/ProductionJob의 저장소 구조는 **확정됨**(PRD.md 5.5.5): Sample과 같은 공유 JSON 문서에
   저장하고, `OrderRepository`/`ProductionQueueRepository` 인터페이스는 애그리게잇별로 분리 유지.
+  실제 스키마는 [docs/DATA_CONTRACT.md](docs/DATA_CONTRACT.md) 참고.
 
 ## 범위 제한
 
