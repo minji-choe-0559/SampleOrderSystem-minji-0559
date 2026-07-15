@@ -33,5 +33,20 @@ TEST(ParseDoubleTest, ReturnsNulloptForNonNumericText) {
     EXPECT_FALSE(ParseDouble("abc").has_value());
 }
 
+TEST(ParseIntTest, ParsesValidInteger) { EXPECT_EQ(10, ParseInt("10").value()); }
+
+TEST(ParseIntTest, ReturnsNulloptForBlankLine) { EXPECT_FALSE(ParseInt("").has_value()); }
+
+TEST(ParseIntTest, ReturnsNulloptForDecimalText) {
+    // "10.5"는 정수 필드(주문 수량)에 유효하지 않은 값으로 취급되어야 한다.
+    EXPECT_FALSE(ParseInt("10.5").has_value());
+}
+
+TEST(ParseIntTest, ParsesNegativeInteger) {
+    // 메뉴 선택과 달리 주문 수량 입력에서는 "-1" 같은 음수도 일단 파싱은 되어야
+    // OrderRepository의 quantity <= 0 검증으로 넘겨 거부할 수 있다.
+    EXPECT_EQ(-5, ParseInt("-5").value());
+}
+
 }  // namespace
 }  // namespace SampleOrderSystem

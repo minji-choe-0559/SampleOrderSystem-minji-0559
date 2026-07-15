@@ -52,14 +52,14 @@ void ConsoleView::ShowMenu() {
               << "[1] 시료 등록\n"
               << "[2] 시료 목록 조회\n"
               << "[3] 시료 검색\n"
-              << "[0] 종료\n"
+              << "[0] 뒤로\n"
               << "선택 > ";
 }
 
 int ConsoleView::ReadMenuChoice() {
     std::string line;
     if (!std::getline(std::cin, line)) {
-        return 0;  // EOF/실패: 종료로 취급해 무한 루프에 빠지지 않는다.
+        return 0;  // EOF/실패: 뒤로가기로 취급해 무한 루프에 빠지지 않는다.
     }
     return ParseMenuChoice(line).value_or(-1);  // 파싱 실패는 -1(무효 선택)로 취급.
 }

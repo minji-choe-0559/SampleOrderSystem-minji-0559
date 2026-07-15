@@ -3,16 +3,31 @@
 #define NOMINMAX
 #include <Windows.h>
 
+#include <iostream>
+
+#include "ConsoleInputParsing.h"
+#include "ConsoleOrderView.h"
 #include "ConsoleView.h"
 #include "ListSamplesUseCase.h"
+#include "OrderController.h"
+#include "OrderRepository.h"
 #include "RegisterSampleUseCase.h"
+#include "ReserveOrderUseCase.h"
 #include "SampleController.h"
 #include "SampleRepository.h"
 #include "SearchSampleUseCase.h"
 
 namespace {
 const char kDataPath[] = "data/sample.json";
+
+void ShowMainMenu() {
+    std::cout << "\n=== 반도체 시료 생산주문관리 시스템 ===\n"
+              << "[1] 시료 관리\n"
+              << "[2] 시료 주문\n"
+              << "[0] 종료\n"
+              << "선택 > ";
 }
+}  // namespace
 
 int main(int argc, char** argv) {
     // 소스는 /utf-8로 컴파일되어 한글 리터럴이 UTF-8 바이트로 실행 파일에 들어간다. 콘솔의 기본
@@ -31,13 +46,43 @@ int main(int argc, char** argv) {
 
     using namespace SampleOrderSystem;
 
-    SampleRepository repository(kDataPath);
-    RegisterSampleUseCase registerUseCase(repository);
-    ListSamplesUseCase listUseCase(repository);
-    SearchSampleUseCase searchUseCase(repository);
-    ConsoleView view;
-    SampleController controller(view, registerUseCase, listUseCase, searchUseCase);
-    controller.Run();
+    SampleRepository sampleRepository(kDataPath);
+    OrderRepository orderRepository(kDataPath);  // Sample과 같은 공유 문서(PRD.md 5.5.5)
+
+    RegisterSampleUseCase registerUseCase(sampleRepository);
+    ListSamplesUseCase listUseCase(sampleRepository);
+    SearchSampleUseCase searchUseCase(sampleRepository);
+    ReserveOrderUseCase reserveUseCase(sampleRepository, orderRepository);
+
+    ConsoleView sampleView;
+    SampleController sampleController(sampleView, registerUseCase, listUseCase, searchUseCase);
+
+    ConsoleOrderView orderView;
+    OrderController orderController(orderView, reserveUseCase);
+
+    // 아직 구현되지 않은 메인 메뉴 항목(주문 승인/거절, 모니터링, 생산 라인, 출고 처리)은 해당
+    // Phase가 끝날 때마다 하나씩 여기에 채워 넣는다(Phase 0에서 결정한 방식).
+    bool running = true;
+    while (running) {
+        ShowMainMenu();
+        std::string line;
+        if (!std::getline(std::cin, line)) {
+            break;  // EOF: 무한 루프 없이 종료
+        }
+        switch (ParseMenuChoice(line).value_or(-1)) {
+            case 1:
+                sampleController.Run();
+                break;
+            case 2:
+                orderController.Run();
+                break;
+            case 0:
+                running = false;
+                break;
+            default:
+                break;
+        }
+    }
 
     return 0;
 }

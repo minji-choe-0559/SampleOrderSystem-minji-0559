@@ -10,5 +10,6 @@ namespace SampleOrderSystem {
 // 파싱해, 빈 줄/잘못된 형식의 실패 경로를 단위 테스트로 직접 재현할 수 있게 분리한다.
 std::optional<int> ParseMenuChoice(const std::string& line);
 std::optional<double> ParseDouble(const std::string& line);
+std::optional<int> ParseInt(const std::string& line);
 
 }  // namespace SampleOrderSystem

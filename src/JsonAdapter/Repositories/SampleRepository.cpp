@@ -2,11 +2,10 @@
 
 #include <algorithm>
 #include <cctype>
-#include <filesystem>
 #include <stdexcept>
 
-#include "JsonStore.h"
 #include "SampleDocument.h"
+#include "SharedDocument.h"
 
 namespace SampleOrderSystem {
 
@@ -55,22 +54,16 @@ void validateFields(const std::string& sampleCode, const std::string& name, doub
 SampleRepository::SampleRepository(std::string path) : path_(std::move(path)) {}
 
 std::vector<SampleRecord> SampleRepository::readAll() const {
-    // JsonStore::read는 파일이 없거나 내용이 비어 있으면 "빈 배열"(JSON_CRUD 시절의 bare array
-    // 기본값)을 반환한다. 이 저장소의 계약은 object 루트({schemaVersion, records})이므로, 파일이
-    // 아직 없는 경우는 SampleDocument::fromJson으로 넘기지 않고 여기서 "레코드 없음"으로 직접
-    // 처리한다 — 그래야 실제로 손상된 object 루트(잘못된 schemaVersion 등)와 혼동되지 않는다.
-    if (!std::filesystem::exists(path_)) {
-        return {};
-    }
-    return SampleDocument::fromJson(JsonStore::read(path_));
+    JsonValue document = ReadSharedDocument(path_);
+    return SampleDocument::fromJson(GetArrayField(document, "records"));
 }
 
 void SampleRepository::writeAll(const std::vector<SampleRecord>& records) const {
-    std::filesystem::path filePath(path_);
-    if (filePath.has_parent_path()) {
-        std::filesystem::create_directories(filePath.parent_path());
-    }
-    JsonStore::write(path_, SampleDocument::toJson(records));
+    // Order/ProductionJob과 공유하는 문서이므로, 먼저 현재 문서를 읽어 "records" 필드만 교체한다 —
+    // 그래야 다른 애그리게잇이 이미 써 둔 데이터를 잃지 않는다(PRD.md 5.5.5).
+    JsonValue document = ReadSharedDocument(path_);
+    JsonValue updated = WithArrayField(document, "records", SampleDocument::toJson(records));
+    WriteSharedDocument(path_, updated);
 }
 
 SampleRecord SampleRepository::create(const std::string& sampleCode, const std::string& name,
