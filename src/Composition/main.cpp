@@ -13,9 +13,9 @@
 #include "ListReservedOrdersUseCase.h"
 #include "ListSamplesUseCase.h"
 #include "OrderApprovalController.h"
+#include "OrderApprovalRepository.h"
 #include "OrderController.h"
 #include "OrderRepository.h"
-#include "ProductionQueueRepository.h"
 #include "RegisterSampleUseCase.h"
 #include "RejectOrderUseCase.h"
 #include "ReserveOrderUseCase.h"
@@ -55,15 +55,14 @@ int main(int argc, char** argv) {
 
     SampleRepository sampleRepository(kDataPath);
     OrderRepository orderRepository(kDataPath);  // Sample과 같은 공유 문서(PRD 5.5.5)
-    ProductionQueueRepository productionQueueRepository(kDataPath);  // 위와 동일 문서 공유
+    OrderApprovalRepository orderApprovalRepository(kDataPath);  // 위와 동일 문서 공유(원자적 승인)
 
     RegisterSampleUseCase registerUseCase(sampleRepository);
     ListSamplesUseCase listUseCase(sampleRepository);
     SearchSampleUseCase searchUseCase(sampleRepository);
     ReserveOrderUseCase reserveUseCase(sampleRepository, orderRepository);
     ListReservedOrdersUseCase listReservedUseCase(orderRepository);
-    ApproveOrderUseCase approveUseCase(orderRepository, sampleRepository,
-                                       productionQueueRepository);
+    ApproveOrderUseCase approveUseCase(orderRepository, sampleRepository, orderApprovalRepository);
     RejectOrderUseCase rejectUseCase(orderRepository);
 
     ConsoleView sampleView;

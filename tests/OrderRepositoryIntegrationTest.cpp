@@ -95,5 +95,28 @@ TEST_F(OrderRepositoryIntegrationTest, SharesDocumentWithSampleRepositoryWithout
     EXPECT_EQ("ORD-00002", orders[1].orderNumber);
 }
 
+TEST_F(OrderRepositoryIntegrationTest, FindByOrderNumberReturnsNulloptWhenUnknown) {
+    OrderRepository repo(path_);
+    EXPECT_FALSE(repo.findByOrderNumber("ORD-99999").has_value());
+}
+
+TEST_F(OrderRepositoryIntegrationTest, UpdateStatusPersistsAcrossRestart) {
+    // test-auditor 지적: Phase 3에서 추가된 updateStatus의 실물 통합 테스트가 없었다.
+    OrderRepository repo(path_);
+    repo.create("S-001", "Customer", 10);
+
+    std::optional<Order> updated = repo.updateStatus("ORD-00001", OrderStatus::Confirmed);
+    ASSERT_TRUE(updated.has_value());
+    EXPECT_EQ(OrderStatus::Confirmed, updated->status);
+
+    OrderRepository reloaded(path_);
+    EXPECT_EQ(OrderStatus::Confirmed, reloaded.findByOrderNumber("ORD-00001")->status);
+}
+
+TEST_F(OrderRepositoryIntegrationTest, UpdateStatusReturnsNulloptWhenOrderNumberUnknown) {
+    OrderRepository repo(path_);
+    EXPECT_FALSE(repo.updateStatus("ORD-99999", OrderStatus::Rejected).has_value());
+}
+
 }  // namespace
 }  // namespace SampleOrderSystem

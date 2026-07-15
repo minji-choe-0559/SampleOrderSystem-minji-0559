@@ -4,6 +4,7 @@
 #include <filesystem>
 
 #include "ApproveOrderUseCase.h"
+#include "OrderApprovalRepository.h"
 #include "OrderRepository.h"
 #include "ProductionQueueRepository.h"
 #include "SampleRepository.h"
@@ -81,25 +82,50 @@ TEST_F(ProductionQueueRepositoryIntegrationTest, SharesDocumentWithSampleAndOrde
     EXPECT_EQ(189, jobs[0].quantity);
 }
 
-TEST_F(ProductionQueueRepositoryIntegrationTest, ApproveOrderUseCasePersistsProductionJobToFile) {
+TEST_F(ProductionQueueRepositoryIntegrationTest,
+       ApproveOrderUseCasePersistsProductionJobToFileWhenStockInsufficient) {
     // PLAN.md Phase 3 완료 조건: 생성된 ProductionJob이 실제 JSON 파일에 저장되고 다시 읽힘.
     SampleRepository sampleRepo(path_);
     OrderRepository orderRepo(path_);
-    ProductionQueueRepository productionRepo(path_);
+    OrderApprovalRepository approvalRepo(path_);
 
     sampleRepo.create("S-001", "Silicon Wafer", 1.0, 90.0, 30);
     orderRepo.create("S-001", "삼성전자 파운드리", 200);
 
-    ApproveOrderUseCase useCase(orderRepo, sampleRepo, productionRepo);
+    ApproveOrderUseCase useCase(orderRepo, sampleRepo, approvalRepo);
     ApproveOrderResult result = useCase.Approve("ORD-00001");
 
     EXPECT_EQ(ApproveOrderOutcome::ProducingInsufficientStock, result.outcome);
 
-    ProductionQueueRepository reloaded(path_);
-    std::vector<ProductionJob> jobs = reloaded.readAll();
+    ProductionQueueRepository reloadedJobs(path_);
+    std::vector<ProductionJob> jobs = reloadedJobs.readAll();
     ASSERT_EQ(1u, jobs.size());
     EXPECT_EQ(189, jobs[0].quantity);
-    EXPECT_EQ(OrderStatus::Producing, orderRepo.findByOrderNumber("ORD-00001")->status);
+
+    OrderRepository reloadedOrders(path_);
+    EXPECT_EQ(OrderStatus::Producing, reloadedOrders.findByOrderNumber("ORD-00001")->status);
+}
+
+TEST_F(ProductionQueueRepositoryIntegrationTest,
+       ApproveOrderUseCasePersistsStockDeductionWhenStockSufficient) {
+    // test-auditor 지적: 재고 즉시 차감 규칙이 실물 Repository 기준으로는 검증되지 않았다.
+    SampleRepository sampleRepo(path_);
+    OrderRepository orderRepo(path_);
+    OrderApprovalRepository approvalRepo(path_);
+
+    sampleRepo.create("S-001", "Silicon Wafer", 1.0, 90.0, 100);
+    orderRepo.create("S-001", "삼성전자 파운드리", 60);
+
+    ApproveOrderUseCase useCase(orderRepo, sampleRepo, approvalRepo);
+    ApproveOrderResult result = useCase.Approve("ORD-00001");
+
+    EXPECT_EQ(ApproveOrderOutcome::ConfirmedSufficientStock, result.outcome);
+
+    SampleRepository reloadedSamples(path_);
+    EXPECT_EQ(40, reloadedSamples.findBySampleCode("S-001")->stock);
+
+    OrderRepository reloadedOrders(path_);
+    EXPECT_EQ(OrderStatus::Confirmed, reloadedOrders.findByOrderNumber("ORD-00001")->status);
 }
 
 }  // namespace
