@@ -76,7 +76,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\Domain\Common;$(ProjectDir)src\Domain\Sample;$(ProjectDir)src\Domain\Order;$(ProjectDir)src\JsonAdapter\Engine;$(ProjectDir)src\JsonAdapter\AtomicWrite;$(ProjectDir)src\JsonAdapter\Repositories;$(ProjectDir)src\Application\Ports;$(ProjectDir)src\Application\UseCases;$(ProjectDir)src\Application\Dto;$(ProjectDir)src\ConsoleAdapter\Views;$(ProjectDir)src\ConsoleAdapter\Controllers;$(ProjectDir)tests\fakes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\Domain\Common;$(ProjectDir)src\Domain\Sample;$(ProjectDir)src\Domain\Order;$(ProjectDir)src\Domain\Production;$(ProjectDir)src\JsonAdapter\Engine;$(ProjectDir)src\JsonAdapter\AtomicWrite;$(ProjectDir)src\JsonAdapter\Repositories;$(ProjectDir)src\Application\Ports;$(ProjectDir)src\Application\UseCases;$(ProjectDir)src\Application\Dto;$(ProjectDir)src\ConsoleAdapter\Views;$(ProjectDir)src\ConsoleAdapter\Controllers;$(ProjectDir)tests\fakes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -94,7 +94,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\Domain\Common;$(ProjectDir)src\Domain\Sample;$(ProjectDir)src\Domain\Order;$(ProjectDir)src\JsonAdapter\Engine;$(ProjectDir)src\JsonAdapter\AtomicWrite;$(ProjectDir)src\JsonAdapter\Repositories;$(ProjectDir)src\Application\Ports;$(ProjectDir)src\Application\UseCases;$(ProjectDir)src\Application\Dto;$(ProjectDir)src\ConsoleAdapter\Views;$(ProjectDir)src\ConsoleAdapter\Controllers;$(ProjectDir)tests\fakes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\Domain\Common;$(ProjectDir)src\Domain\Sample;$(ProjectDir)src\Domain\Order;$(ProjectDir)src\Domain\Production;$(ProjectDir)src\JsonAdapter\Engine;$(ProjectDir)src\JsonAdapter\AtomicWrite;$(ProjectDir)src\JsonAdapter\Repositories;$(ProjectDir)src\Application\Ports;$(ProjectDir)src\Application\UseCases;$(ProjectDir)src\Application\Dto;$(ProjectDir)src\ConsoleAdapter\Views;$(ProjectDir)src\ConsoleAdapter\Controllers;$(ProjectDir)tests\fakes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -110,7 +110,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\Domain\Common;$(ProjectDir)src\Domain\Sample;$(ProjectDir)src\Domain\Order;$(ProjectDir)src\JsonAdapter\Engine;$(ProjectDir)src\JsonAdapter\AtomicWrite;$(ProjectDir)src\JsonAdapter\Repositories;$(ProjectDir)src\Application\Ports;$(ProjectDir)src\Application\UseCases;$(ProjectDir)src\Application\Dto;$(ProjectDir)src\ConsoleAdapter\Views;$(ProjectDir)src\ConsoleAdapter\Controllers;$(ProjectDir)tests\fakes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\Domain\Common;$(ProjectDir)src\Domain\Sample;$(ProjectDir)src\Domain\Order;$(ProjectDir)src\Domain\Production;$(ProjectDir)src\JsonAdapter\Engine;$(ProjectDir)src\JsonAdapter\AtomicWrite;$(ProjectDir)src\JsonAdapter\Repositories;$(ProjectDir)src\Application\Ports;$(ProjectDir)src\Application\UseCases;$(ProjectDir)src\Application\Dto;$(ProjectDir)src\ConsoleAdapter\Views;$(ProjectDir)src\ConsoleAdapter\Controllers;$(ProjectDir)tests\fakes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,7 +128,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\Domain\Common;$(ProjectDir)src\Domain\Sample;$(ProjectDir)src\Domain\Order;$(ProjectDir)src\JsonAdapter\Engine;$(ProjectDir)src\JsonAdapter\AtomicWrite;$(ProjectDir)src\JsonAdapter\Repositories;$(ProjectDir)src\Application\Ports;$(ProjectDir)src\Application\UseCases;$(ProjectDir)src\Application\Dto;$(ProjectDir)src\ConsoleAdapter\Views;$(ProjectDir)src\ConsoleAdapter\Controllers;$(ProjectDir)tests\fakes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\Domain\Common;$(ProjectDir)src\Domain\Sample;$(ProjectDir)src\Domain\Order;$(ProjectDir)src\Domain\Production;$(ProjectDir)src\JsonAdapter\Engine;$(ProjectDir)src\JsonAdapter\AtomicWrite;$(ProjectDir)src\JsonAdapter\Repositories;$(ProjectDir)src\Application\Ports;$(ProjectDir)src\Application\UseCases;$(ProjectDir)src\Application\Dto;$(ProjectDir)src\ConsoleAdapter\Views;$(ProjectDir)src\ConsoleAdapter\Controllers;$(ProjectDir)tests\fakes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -163,6 +163,14 @@
     <ClCompile Include="src\JsonAdapter\Repositories\OrderDocument.cpp" />
     <ClCompile Include="src\JsonAdapter\Repositories\OrderRepository.cpp" />
     <ClCompile Include="src\Application\UseCases\ReserveOrderUseCase.cpp" />
+    <ClCompile Include="src\Application\UseCases\ListReservedOrdersUseCase.cpp" />
+    <ClCompile Include="src\Application\UseCases\ApproveOrderUseCase.cpp" />
+    <ClCompile Include="src\Application\UseCases\RejectOrderUseCase.cpp" />
+    <ClCompile Include="src\ConsoleAdapter\Controllers\OrderApprovalController.cpp" />
+    <ClCompile Include="src\ConsoleAdapter\Views\ConsoleOrderApprovalView.cpp" />
+    <ClCompile Include="src\JsonAdapter\Repositories\ProductionJobJsonMapper.cpp" />
+    <ClCompile Include="src\JsonAdapter\Repositories\ProductionJobDocument.cpp" />
+    <ClCompile Include="src\JsonAdapter\Repositories\ProductionQueueRepository.cpp" />
     <ClCompile Include="src\Application\UseCases\RegisterSampleUseCase.cpp" />
     <ClCompile Include="src\Application\UseCases\ListSamplesUseCase.cpp" />
     <ClCompile Include="src\Application\UseCases\SearchSampleUseCase.cpp" />
@@ -177,6 +185,11 @@
     <ClCompile Include="tests\OrderRepositoryIntegrationTest.cpp" />
     <ClCompile Include="tests\OrderControllerTest.cpp" />
     <ClCompile Include="tests\ConsoleOrderViewTest.cpp" />
+    <ClCompile Include="tests\ApproveOrderUseCaseTest.cpp" />
+    <ClCompile Include="tests\RejectOrderUseCaseTest.cpp" />
+    <ClCompile Include="tests\ListReservedOrdersUseCaseTest.cpp" />
+    <ClCompile Include="tests\ProductionQueueRepositoryIntegrationTest.cpp" />
+    <ClCompile Include="tests\OrderApprovalControllerTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\JsonAdapter\Engine\JsonParser.h" />
@@ -205,6 +218,20 @@
     <ClInclude Include="src\JsonAdapter\Repositories\OrderRepository.h" />
     <ClInclude Include="src\Application\Ports\IOrderRepository.h" />
     <ClInclude Include="src\Application\UseCases\ReserveOrderUseCase.h" />
+    <ClInclude Include="src\Application\UseCases\ListReservedOrdersUseCase.h" />
+    <ClInclude Include="src\Application\UseCases\ApproveOrderUseCase.h" />
+    <ClInclude Include="src\Application\UseCases\RejectOrderUseCase.h" />
+    <ClInclude Include="src\ConsoleAdapter\Controllers\OrderApprovalController.h" />
+    <ClInclude Include="src\ConsoleAdapter\Views\IOrderApprovalView.h" />
+    <ClInclude Include="src\ConsoleAdapter\Views\ConsoleOrderApprovalView.h" />
+    <ClInclude Include="src\Domain\Production\ProductionJob.h" />
+    <ClInclude Include="src\Application\Ports\IProductionQueueRepository.h" />
+    <ClInclude Include="src\JsonAdapter\Repositories\ProductionJobJsonMapper.h" />
+    <ClInclude Include="src\JsonAdapter\Repositories\ProductionJobDocument.h" />
+    <ClInclude Include="src\JsonAdapter\Repositories\ProductionQueueRepository.h" />
+    <ClInclude Include="src\Application\Dto\OrderViewModel.h" />
+    <ClInclude Include="src\Application\Dto\ApproveOrderResult.h" />
+    <ClInclude Include="src\Application\Dto\RejectOrderResult.h" />
     <ClInclude Include="src\Application\Dto\OrderReservationInput.h" />
     <ClInclude Include="src\Application\Dto\OrderReservationResult.h" />
     <ClInclude Include="src\Application\Ports\ISampleRepository.h" />
@@ -220,6 +247,8 @@
     <ClInclude Include="tests\fakes\FakeView.h" />
     <ClInclude Include="tests\fakes\FakeOrderRepository.h" />
     <ClInclude Include="tests\fakes\FakeOrderView.h" />
+    <ClInclude Include="tests\fakes\FakeProductionQueueRepository.h" />
+    <ClInclude Include="tests\fakes\FakeOrderApprovalView.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
