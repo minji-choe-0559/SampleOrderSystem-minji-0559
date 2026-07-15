@@ -46,7 +46,9 @@ Phase가 다루는 도메인 단위를 사용한다. 예: `sample`, `order`, `pr
   차등 적용"의 완화 대상이 아니다).
 - **Atomic Commit**: 하나의 커밋은 하나의 목적만 담는다. RED(`test`)와 GREEN(`feat`/`fix`)을
   하나의 커밋으로 합칠지 분리할지는 Phase 착수 시 결정하되, 서로 다른 계층(예: Domain과 Console
-  Adapter)의 변경을 하나의 커밋에 섞지 않는다.
+  Adapter)의 변경을 하나의 커밋에 섞지 않는다. **저위험 Phase(CLAUDE.md "저위험 Phase 커밋 압축"
+  참고)는 REFACTOR까지 포함해 Phase당 커밋 1개로 압축할 수 있다** — 이 경우 본문에
+  RED→GREEN→REFACTOR 전체 요약을 담아 `Practices Applied` 밀도를 유지한다.
 - 커밋 전 반드시 [CLAUDE.md](CLAUDE.md)의 Harness(Build/Test/Warning/Format)를 통과한 상태여야
   한다.
 - `Practices Applied`의 각 항목은 실제로 한 일만 적는다 — 하지 않은 것을 했다고 적지 않는다.

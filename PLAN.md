@@ -140,24 +140,20 @@ test-auditor.md` 체크리스트와 동일).
 
 ---
 
-## Phase 5. 모니터링 (PRD.md 5.6)
+## Phase 5. 모니터링과 출고 처리 (PRD.md 5.6, 5.7)
+
+> 속도 개선을 위해 기존 "Phase 5(모니터링)"과 "Phase 6(출고 처리)"를 하나의 Phase로 합쳤다. 둘 다
+> 저위험군이고 Order 조회/단순 상태 전환 수준이라 별도 사이클로 나눌 실익이 적다고 판단했다
+> (Review/Harness/커밋을 한 번만 거친다).
 
 ### 구현 범위
-- Application: `MonitoringQuery`(상태별 주문 수, 시료별 재고 현황)
-- `SettlingUseCaseDecorator`로 감싸 조회 전 정산이 선행되도록 연결
+- Application: `MonitoringQuery`(상태별 주문 수, 시료별 재고 현황), `ReleaseOrderUseCase`
+  (CONFIRMED 대상만 처리, RELEASE로 전환)
+- `SettlingUseCaseDecorator`로 `MonitoringQuery`를 감싸 조회 전 정산이 선행되도록 연결
 
 ### 완료 조건
 - REJECTED 제외 상태별 집계, 재고 상태(여유/부족/고갈) 판정이 검증됨(임계치는 Phase 착수 시
   사용자 승인 필요 — PRD.md 8장)
-
----
-
-## Phase 6. 출고 처리 (PRD.md 5.7)
-
-### 구현 범위
-- Application: `ReleaseOrderUseCase`(CONFIRMED 대상만 처리, RELEASE로 전환)
-
-### 완료 조건
 - CONFIRMED가 아닌 주문에 대한 출고 시도가 거부됨이 검증됨
 - **재고 충분 경로 E2E 통합 테스트**: `RESERVED → CONFIRMED → RELEASE` 전체 흐름이 실제 JSON 파일
   기준으로 한 번에 검증됨(이 경로는 생산 정산을 거치지 않으므로 Phase 4 완료를 기다리지 않고 이
@@ -165,7 +161,7 @@ test-auditor.md` 체크리스트와 동일).
 
 ---
 
-## Phase 7. 통합 리팩터링과 최종 Review
+## Phase 6. 통합 리팩터링과 최종 Review
 
 ### 구현 범위
 - 전체 계층 의존 방향 재검토(Domain의 인프라 비의존 여부)
