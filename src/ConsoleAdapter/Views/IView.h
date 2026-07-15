@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <vector>
 
 #include "SampleRegistrationInput.h"
@@ -18,6 +19,7 @@ class IView {
     virtual void ShowMenu() = 0;
     virtual int ReadMenuChoice() = 0;
     virtual SampleRegistrationInput ReadRegistrationInput() = 0;
+    virtual std::string ReadSearchKeyword() = 0;
     virtual void ShowRegistrationResult(const SampleRegistrationResult& result) = 0;
     virtual void ShowSampleList(const std::vector<SampleViewModel>& samples) = 0;
 };

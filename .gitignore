@@ -21,3 +21,6 @@ packages/
 
 # Test results
 TestResults/
+
+# Runtime data (실제 앱 실행 시 생성되는 데이터 파일, fixture 아님)
+/data/

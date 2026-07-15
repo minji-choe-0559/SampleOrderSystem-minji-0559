@@ -2,6 +2,8 @@
 
 #include <stdexcept>
 
+#include "SampleJsonMapper.h"
+
 namespace SampleOrderSystem {
 
 namespace SampleDocument {

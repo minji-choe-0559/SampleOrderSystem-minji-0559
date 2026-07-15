@@ -9,7 +9,8 @@
 
 ## 1. 현재 상태
 
-**Phase 0 진행 중 — 프로젝트 골격과 Harness는 갖춰졌고, 도메인 코드는 아직 없다.**
+**Phase 1(시료 관리) 완료 — Domain/Application/JsonAdapter/ConsoleAdapter 4계층이 실제로
+분리되어 동작한다.**
 
 | 항목 | 상태 |
 |---|---|
@@ -18,11 +19,14 @@
 | `.claude/skills/test-driven-development/` | 준비 완료 |
 | `.claude/agents/`(code-reviewer / test-auditor / refactoring-specialist) | 작성 완료 |
 | 원본 명세 PDF | `docs/` 안에 포함 |
-| `docs/UI_DESIGN_PROPOSAL.md` | 화면 구성 시안 작성(구속력 없음, PRD.md 5장 "화면 구성은 자유")— 3장의 미결정 사항 답변 대기 |
-| `src/JsonAdapter/*`, `src/ConsoleAdapter/{Views,ViewModels}` | DataPersistence/ConsoleMVC 소스를 이식·네임스페이스 정리·빌드 검증 완료 |
-| `src/ConsoleAdapter/Controllers`(`SampleController`) | 물리적으로만 복사, Application Port 미비로 `.vcxproj` 미편입(Phase 1 대상) |
-| 도메인 코드(Sample/Order/ProductionJob) | 미착수 (Phase 1부터) |
-| Harness(단일 verify 명령) | `verify.ps1` 확정 — Build(/W4 /WX, /utf-8)/Unit Test(0건 통과)/Format Check(clang-format) |
+| `docs/UI_DESIGN_PROPOSAL.md` | 화면 구성 시안 작성(구속력 없음, PRD.md 5장 "화면 구성은 자유") |
+| `src/Domain/{Common,Sample}` | `Guid`/`SampleRecord` — JSON 라이브러리 의존 제거, 순수 Domain 타입 |
+| `src/JsonAdapter/*` | `SampleJsonMapper`로 직렬화 분리, `SampleRepository`가 `ISampleRepository` Port 구현 |
+| `src/Application/{Ports,UseCases,Dto}` | `ISampleRepository`, `RegisterSampleUseCase`/`ListSamplesUseCase`/`SearchSampleUseCase` |
+| `src/ConsoleAdapter/{Views,Controllers}` | `SampleController` 3-UseCase 구조로 재작성, `std::getline` 기반 입력(+검색 메뉴)으로 교체 |
+| 시료 관리(PRD.md 5.2: 등록/조회/검색) | 완료 — 콘솔에서 실제 동작, GoogleTest 26건 통과 |
+| 도메인 코드(Order/ProductionJob) | 미착수 (Phase 2부터) |
+| Harness(단일 verify 명령) | `verify.ps1` — Build(/W4 /WX, /utf-8)/Unit Test(26건 통과)/Format Check(clang-format) |
 
 ## 2. 문서 구조
 
@@ -62,12 +66,15 @@ powershell -ExecutionPolicy Bypass -File .\verify.ps1
 
 `verify.ps1`(Build → Unit Test → Compiler Warning → Format Check)이 단일 진입점이다.
 Build는 `Directory.Build.props`가 전체 프로젝트에 적용하는 `/W4 /WX`(외부 벤더 헤더 제외)와
-`/utf-8`로 검증된다. 아직 테스트 프로젝트가 없어 Unit Test 단계는 "0건, 통과"로 처리된다
-(Phase 0 완료 조건, PLAN.md).
+`/utf-8`로 검증된다. Unit Test는 별도 Test 프로젝트 없이, 같은 실행 파일을 인자와 함께 호출하면
+`main()`이 GoogleTest 러너로 분기하는 방식이다(`DataPersistence-minji-0559`와 동일한 패턴).
 
 ## 6. 실행 방법
 
-`TBD` — 도메인 구현(Phase 1) 이후 갱신.
+```powershell
+.\x64\Debug\SampleOrderSystem-minji-0559.exe          # 콘솔 앱(시료 관리 메뉴)
+.\x64\Debug\SampleOrderSystem-minji-0559.exe --gtest_color=no   # 인자가 있으면 테스트 모드
+```
 
 ## 7. 진행 방식 요약
 

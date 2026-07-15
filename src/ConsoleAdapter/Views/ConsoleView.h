@@ -11,6 +11,7 @@ class ConsoleView : public IView {
     void ShowMenu() override;
     int ReadMenuChoice() override;
     SampleRegistrationInput ReadRegistrationInput() override;
+    std::string ReadSearchKeyword() override;
     void ShowRegistrationResult(const SampleRegistrationResult& result) override;
     void ShowSampleList(const std::vector<SampleViewModel>& samples) override;
 };
