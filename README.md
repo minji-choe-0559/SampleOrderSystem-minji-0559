@@ -85,3 +85,8 @@ Build는 `Directory.Build.props`가 전체 프로젝트에 적용하는 `/W4 /WX
 → 독립 Review(code-reviewer / test-auditor 병렬) → Harness 검증
 → 승인된 리팩터링만 refactoring-specialist 순차 실행 → 사용자 승인 → Commit/PR
 ```
+
+Phase 1 완료 후, Phase별 위험도에 따라 이 절차의 엄격함을 차등 적용하기로 했다(CLAUDE.md
+"Phase별 Rigor 차등 적용" 참고). 저위험 Phase(1/2/3/5/6: PoC 재사용 또는 단순 로직)는 Phase
+착수/완료 시점에만 승인받고 중간은 이어서 진행하며, 고위험 Phase(4/7: 생산 정산, 최종 통합)는
+위 절차를 화살표 하나하나 그대로 지킨다. 독립 Review는 두 그룹 모두에서 생략하지 않는다.
