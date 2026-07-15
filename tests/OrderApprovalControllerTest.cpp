@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 
+#include "FakeOrderApprovalRepository.h"
 #include "FakeOrderApprovalView.h"
 #include "FakeOrderRepository.h"
 #include "FakeProductionQueueRepository.h"
@@ -20,10 +21,11 @@ class OrderApprovalControllerTest : public ::testing::Test {
     FakeSampleRepository sampleRepository_;
     FakeOrderRepository orderRepository_;
     FakeProductionQueueRepository productionQueueRepository_;
+    FakeOrderApprovalRepository approvalRepository_{sampleRepository_, orderRepository_,
+                                                    productionQueueRepository_};
     FakeOrderApprovalView view_;
     ListReservedOrdersUseCase listUseCase_{orderRepository_};
-    ApproveOrderUseCase approveUseCase_{orderRepository_, sampleRepository_,
-                                        productionQueueRepository_};
+    ApproveOrderUseCase approveUseCase_{orderRepository_, sampleRepository_, approvalRepository_};
     RejectOrderUseCase rejectUseCase_{orderRepository_};
     OrderApprovalController controller_{view_, listUseCase_, approveUseCase_, rejectUseCase_};
 };

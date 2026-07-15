@@ -7,10 +7,10 @@ namespace SampleOrderSystem {
 
 ApproveOrderUseCase::ApproveOrderUseCase(IOrderRepository& orderRepository,
                                          ISampleRepository& sampleRepository,
-                                         IProductionQueueRepository& productionQueueRepository)
+                                         IOrderApprovalRepository& approvalRepository)
     : orderRepository_(orderRepository),
       sampleRepository_(sampleRepository),
-      productionQueueRepository_(productionQueueRepository) {}
+      approvalRepository_(approvalRepository) {}
 
 ApproveOrderResult ApproveOrderUseCase::Approve(const std::string& orderNumber) {
     auto orderOpt = orderRepository_.findByOrderNumber(orderNumber);
@@ -33,16 +33,30 @@ ApproveOrderResult ApproveOrderUseCase::Approve(const std::string& orderNumber) 
 
     try {
         if (sampleOpt->stock >= orderOpt->quantity) {
-            sampleRepository_.adjustStock(orderOpt->sampleCode, -orderOpt->quantity);
-            orderRepository_.updateStatus(orderNumber, OrderStatus::Confirmed);
+            bool ok = approvalRepository_.ConfirmWithStockDeduction(
+                orderNumber, orderOpt->sampleCode, orderOpt->quantity);
+            if (!ok) {
+                return ApproveOrderResult{ApproveOrderOutcome::StorageFailure,
+                                          "승인 처리 중 시료 또는 주문을 찾을 수 없습니다."};
+            }
             return ApproveOrderResult{ApproveOrderOutcome::ConfirmedSufficientStock,
                                       "재고 충분 — 즉시 출고 대기(CONFIRMED) 처리되었습니다."};
         }
 
+        if (sampleOpt->yieldRate <= 0.0) {
+            return ApproveOrderResult{
+                ApproveOrderOutcome::InvalidYieldRate,
+                "시료의 수율이 0 이하라 생산량을 계산할 수 없습니다: " + orderOpt->sampleCode};
+        }
+
         int shortfall = orderOpt->quantity - sampleOpt->stock;
         int actualQuantity = static_cast<int>(std::ceil(shortfall * 100.0 / sampleOpt->yieldRate));
-        productionQueueRepository_.create(orderOpt->orderId, orderOpt->sampleCode, actualQuantity);
-        orderRepository_.updateStatus(orderNumber, OrderStatus::Producing);
+        bool ok = approvalRepository_.TransitionToProducing(orderNumber, orderOpt->orderId,
+                                                            orderOpt->sampleCode, actualQuantity);
+        if (!ok) {
+            return ApproveOrderResult{ApproveOrderOutcome::StorageFailure,
+                                      "승인 처리 중 주문을 찾을 수 없습니다."};
+        }
         return ApproveOrderResult{
             ApproveOrderOutcome::ProducingInsufficientStock,
             "재고 부족 — 생산 큐에 등록되어 생산 중(PRODUCING) 처리되었습니다."};

@@ -171,6 +171,7 @@
     <ClCompile Include="src\JsonAdapter\Repositories\ProductionJobJsonMapper.cpp" />
     <ClCompile Include="src\JsonAdapter\Repositories\ProductionJobDocument.cpp" />
     <ClCompile Include="src\JsonAdapter\Repositories\ProductionQueueRepository.cpp" />
+    <ClCompile Include="src\JsonAdapter\Repositories\OrderApprovalRepository.cpp" />
     <ClCompile Include="src\Application\UseCases\RegisterSampleUseCase.cpp" />
     <ClCompile Include="src\Application\UseCases\ListSamplesUseCase.cpp" />
     <ClCompile Include="src\Application\UseCases\SearchSampleUseCase.cpp" />
@@ -190,6 +191,8 @@
     <ClCompile Include="tests\ListReservedOrdersUseCaseTest.cpp" />
     <ClCompile Include="tests\ProductionQueueRepositoryIntegrationTest.cpp" />
     <ClCompile Include="tests\OrderApprovalControllerTest.cpp" />
+    <ClCompile Include="tests\ConsoleOrderApprovalViewTest.cpp" />
+    <ClCompile Include="tests\OrderApprovalRepositoryIntegrationTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\JsonAdapter\Engine\JsonParser.h" />
@@ -226,6 +229,8 @@
     <ClInclude Include="src\ConsoleAdapter\Views\ConsoleOrderApprovalView.h" />
     <ClInclude Include="src\Domain\Production\ProductionJob.h" />
     <ClInclude Include="src\Application\Ports\IProductionQueueRepository.h" />
+    <ClInclude Include="src\Application\Ports\IOrderApprovalRepository.h" />
+    <ClInclude Include="src\JsonAdapter\Repositories\OrderApprovalRepository.h" />
     <ClInclude Include="src\JsonAdapter\Repositories\ProductionJobJsonMapper.h" />
     <ClInclude Include="src\JsonAdapter\Repositories\ProductionJobDocument.h" />
     <ClInclude Include="src\JsonAdapter\Repositories\ProductionQueueRepository.h" />
@@ -249,6 +254,7 @@
     <ClInclude Include="tests\fakes\FakeOrderView.h" />
     <ClInclude Include="tests\fakes\FakeProductionQueueRepository.h" />
     <ClInclude Include="tests\fakes\FakeOrderApprovalView.h" />
+    <ClInclude Include="tests\fakes\FakeOrderApprovalRepository.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

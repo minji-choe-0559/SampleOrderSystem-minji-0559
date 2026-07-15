@@ -100,5 +100,30 @@ TEST_F(SampleRepositoryIntegrationTest, RegisterListSearchRoundTripThroughUseCas
     EXPECT_TRUE(searchUseCase.Search("no-match").empty());
 }
 
+TEST_F(SampleRepositoryIntegrationTest, AdjustStockPersistsAcrossRestart) {
+    // test-auditor 지적: Phase 3에서 추가된 adjustStock의 실물 통합 테스트가 없었다.
+    SampleRepository repo(path_);
+    repo.create("S-001", "Sample A", 1.0, 90.0, 100);
+
+    std::optional<SampleRecord> updated = repo.adjustStock("S-001", -60);
+    ASSERT_TRUE(updated.has_value());
+    EXPECT_EQ(40, updated->stock);
+
+    SampleRepository reloaded(path_);
+    EXPECT_EQ(40, reloaded.findBySampleCode("S-001")->stock);
+}
+
+TEST_F(SampleRepositoryIntegrationTest, AdjustStockRejectsNegativeResult) {
+    SampleRepository repo(path_);
+    repo.create("S-001", "Sample A", 1.0, 90.0, 10);
+
+    EXPECT_THROW(repo.adjustStock("S-001", -20), std::invalid_argument);
+}
+
+TEST_F(SampleRepositoryIntegrationTest, AdjustStockReturnsNulloptWhenSampleCodeUnknown) {
+    SampleRepository repo(path_);
+    EXPECT_FALSE(repo.adjustStock("S-999", -1).has_value());
+}
+
 }  // namespace
 }  // namespace SampleOrderSystem

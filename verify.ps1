@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     SampleOrderSystem 단일 verify 명령.
     Build, Unit Test, Compiler Warning, Format Check를 한 번에 검증한다.
@@ -97,6 +97,11 @@ $clangFormat = Find-ClangFormat
 
 function Get-ChangedSourceFiles {
     # git을 쓸 수 없으면 $null을 반환해 호출자가 전체 스캔으로 폴백하게 한다.
+    # 스크립트 전역의 $ErrorActionPreference = "Stop"이 git(네이티브 커맨드)의 stderr 경고
+    # (예: "LF will be replaced by CRLF")까지 치명적 오류로 격상시켜 verify.ps1 전체가
+    # 죽는 문제가 있었다 — 이 함수 안에서만 지역적으로 완화한다(함수 스코프라 전역에는
+    # 영향 없음).
+    $ErrorActionPreference = "Continue"
     try {
         Push-Location $RepoRoot
         git rev-parse --is-inside-work-tree *> $null
