@@ -42,9 +42,8 @@ Phase가 다루는 도메인 단위를 사용한다. 예: `sample`, `order`, `pr
 ## 규칙
 
 - **줄 길이**: 제목과 본문의 모든 줄은 60자 이내로 작성한다(한글 기준). 60자를 넘으면 의미 단위로
-  줄바꿈한다. 단, CLAUDE.md "Phase별 Rigor 차등 적용"의 저위험 Phase(1/2/3/5/6)에서는 문장이
-  자연스럽게 끊기는 선까지만 지키고 억지로 wrapping하지 않는다 — 고위험 Phase(4/7)에서만 엄격히
-  적용한다.
+  줄바꿈한다. Phase 위험도와 무관하게 모든 커밋에 동일하게 적용한다(CLAUDE.md "Phase별 Rigor
+  차등 적용"의 완화 대상이 아니다).
 - **Atomic Commit**: 하나의 커밋은 하나의 목적만 담는다. RED(`test`)와 GREEN(`feat`/`fix`)을
   하나의 커밋으로 합칠지 분리할지는 Phase 착수 시 결정하되, 서로 다른 계층(예: Domain과 Console
   Adapter)의 변경을 하나의 커밋에 섞지 않는다.
