@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="소스 파일">
@@ -42,8 +42,35 @@
     <Filter Include="src\ConsoleAdapter\Views">
       <UniqueIdentifier>{9c0b1f2a-1111-4a1a-9a1a-000000000008}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\ConsoleAdapter\ViewModels">
-      <UniqueIdentifier>{9c0b1f2a-1111-4a1a-9a1a-000000000009}</UniqueIdentifier>
+    <Filter Include="src\ConsoleAdapter\Controllers">
+      <UniqueIdentifier>{9c0b1f2a-1111-4a1a-9a1a-00000000000a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Domain">
+      <UniqueIdentifier>{9c0b1f2a-1111-4a1a-9a1a-00000000000b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Domain\Common">
+      <UniqueIdentifier>{9c0b1f2a-1111-4a1a-9a1a-00000000000c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Domain\Sample">
+      <UniqueIdentifier>{9c0b1f2a-1111-4a1a-9a1a-00000000000d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Application">
+      <UniqueIdentifier>{9c0b1f2a-1111-4a1a-9a1a-00000000000e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Application\Ports">
+      <UniqueIdentifier>{9c0b1f2a-1111-4a1a-9a1a-00000000000f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Application\UseCases">
+      <UniqueIdentifier>{9c0b1f2a-1111-4a1a-9a1a-000000000010}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Application\Dto">
+      <UniqueIdentifier>{9c0b1f2a-1111-4a1a-9a1a-000000000011}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests">
+      <UniqueIdentifier>{9c0b1f2a-1111-4a1a-9a1a-000000000012}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests\fakes">
+      <UniqueIdentifier>{9c0b1f2a-1111-4a1a-9a1a-000000000013}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -68,13 +95,10 @@
     <ClCompile Include="src\JsonAdapter\AtomicWrite\Win32AtomicFileOperations.cpp">
       <Filter>src\JsonAdapter\AtomicWrite</Filter>
     </ClCompile>
-    <ClCompile Include="src\JsonAdapter\Repositories\Guid.cpp">
-      <Filter>src\JsonAdapter\Repositories</Filter>
-    </ClCompile>
     <ClCompile Include="src\JsonAdapter\Repositories\SampleDocument.cpp">
       <Filter>src\JsonAdapter\Repositories</Filter>
     </ClCompile>
-    <ClCompile Include="src\JsonAdapter\Repositories\SampleRecord.cpp">
+    <ClCompile Include="src\JsonAdapter\Repositories\SampleJsonMapper.cpp">
       <Filter>src\JsonAdapter\Repositories</Filter>
     </ClCompile>
     <ClCompile Include="src\JsonAdapter\Repositories\SampleRepository.cpp">
@@ -82,6 +106,45 @@
     </ClCompile>
     <ClCompile Include="src\ConsoleAdapter\Views\ConsoleView.cpp">
       <Filter>src\ConsoleAdapter\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConsoleAdapter\Views\ConsoleInputParsing.cpp">
+      <Filter>src\ConsoleAdapter\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConsoleAdapter\Controllers\SampleController.cpp">
+      <Filter>src\ConsoleAdapter\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Domain\Common\Guid.cpp">
+      <Filter>src\Domain\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Application\UseCases\RegisterSampleUseCase.cpp">
+      <Filter>src\Application\UseCases</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Application\UseCases\ListSamplesUseCase.cpp">
+      <Filter>src\Application\UseCases</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Application\UseCases\SearchSampleUseCase.cpp">
+      <Filter>src\Application\UseCases</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\ConsoleInputParsingTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\RegisterSampleUseCaseTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\ListSamplesUseCaseTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\SearchSampleUseCaseTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\SampleControllerTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\SampleRepositoryIntegrationTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\ConsoleViewTest.cpp">
+      <Filter>tests</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -106,13 +169,10 @@
     <ClInclude Include="src\JsonAdapter\AtomicWrite\Win32AtomicFileOperations.h">
       <Filter>src\JsonAdapter\AtomicWrite</Filter>
     </ClInclude>
-    <ClInclude Include="src\JsonAdapter\Repositories\Guid.h">
-      <Filter>src\JsonAdapter\Repositories</Filter>
-    </ClInclude>
     <ClInclude Include="src\JsonAdapter\Repositories\SampleDocument.h">
       <Filter>src\JsonAdapter\Repositories</Filter>
     </ClInclude>
-    <ClInclude Include="src\JsonAdapter\Repositories\SampleRecord.h">
+    <ClInclude Include="src\JsonAdapter\Repositories\SampleJsonMapper.h">
       <Filter>src\JsonAdapter\Repositories</Filter>
     </ClInclude>
     <ClInclude Include="src\JsonAdapter\Repositories\SampleRepository.h">
@@ -124,14 +184,50 @@
     <ClInclude Include="src\ConsoleAdapter\Views\IView.h">
       <Filter>src\ConsoleAdapter\Views</Filter>
     </ClInclude>
-    <ClInclude Include="src\ConsoleAdapter\ViewModels\SampleRegistrationInput.h">
-      <Filter>src\ConsoleAdapter\ViewModels</Filter>
+    <ClInclude Include="src\ConsoleAdapter\Views\ConsoleInputParsing.h">
+      <Filter>src\ConsoleAdapter\Views</Filter>
     </ClInclude>
-    <ClInclude Include="src\ConsoleAdapter\ViewModels\SampleRegistrationResult.h">
-      <Filter>src\ConsoleAdapter\ViewModels</Filter>
+    <ClInclude Include="src\ConsoleAdapter\Controllers\SampleController.h">
+      <Filter>src\ConsoleAdapter\Controllers</Filter>
     </ClInclude>
-    <ClInclude Include="src\ConsoleAdapter\ViewModels\SampleViewModel.h">
-      <Filter>src\ConsoleAdapter\ViewModels</Filter>
+    <ClInclude Include="src\Domain\Common\Guid.h">
+      <Filter>src\Domain\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Domain\Sample\SampleRecord.h">
+      <Filter>src\Domain\Sample</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\Ports\ISampleRepository.h">
+      <Filter>src\Application\Ports</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\UseCases\RegisterSampleUseCase.h">
+      <Filter>src\Application\UseCases</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\UseCases\ListSamplesUseCase.h">
+      <Filter>src\Application\UseCases</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\UseCases\SearchSampleUseCase.h">
+      <Filter>src\Application\UseCases</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\UseCases\TextMatch.h">
+      <Filter>src\Application\UseCases</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\UseCases\SampleViewModelMapper.h">
+      <Filter>src\Application\UseCases</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\Dto\SampleRegistrationInput.h">
+      <Filter>src\Application\Dto</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\Dto\SampleRegistrationResult.h">
+      <Filter>src\Application\Dto</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\Dto\SampleViewModel.h">
+      <Filter>src\Application\Dto</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\fakes\FakeSampleRepository.h">
+      <Filter>tests\fakes</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\fakes\FakeView.h">
+      <Filter>tests\fakes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

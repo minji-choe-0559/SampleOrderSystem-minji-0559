@@ -58,14 +58,15 @@ Write-Output "Build 성공 (Compiler Warning 검증 포함: /W4, /WX, 외부 벤
 
 Write-Output ""
 Write-Output "==== [2/4] Unit Test ===="
-$testExe = Join-Path $RepoRoot "$Platform\$Configuration\SampleOrderSystem-minji-0559.Tests.exe"
-if (-not (Test-Path $testExe)) {
-    Write-Output "테스트 프로젝트 없음 — Phase 0은 테스트 0건 상태에서도 통과로 간주(PLAN.md)"
-} else {
-    & $testExe
-    if ($LASTEXITCODE -ne 0) { throw "Unit Test 실패 (exit $LASTEXITCODE)" }
-    Write-Output "Unit Test 통과"
+# DataPersistence-minji-0559와 동일한 규칙: 별도 Test 실행 파일을 만들지 않고, 같은 exe를
+# 인자와 함께 호출하면 main()이 GoogleTest 러너로 분기한다(인자 없이 호출하면 콘솔 앱 실행).
+$appExe = Join-Path $RepoRoot "$Platform\$Configuration\SampleOrderSystem-minji-0559.exe"
+if (-not (Test-Path $appExe)) {
+    throw "실행 파일을 찾을 수 없습니다: $appExe"
 }
+& $appExe --gtest_color=no
+if ($LASTEXITCODE -ne 0) { throw "Unit Test 실패 (exit $LASTEXITCODE)" }
+Write-Output "Unit Test 통과"
 
 Write-Output ""
 Write-Output "==== [3/4] Compiler Warning ===="

@@ -11,8 +11,9 @@ enum class SampleRegistrationOutcome {
     StorageFailure,
 };
 
-// Presentation-layer result: Controller translates ISampleService's
-// outcome into this before handing it to the View (POC_SPEC.md 10.2).
+// Presentation-layer result: RegisterSampleUseCase translates
+// ISampleRepository's exception into this before the Controller hands it
+// to the View.
 struct SampleRegistrationResult {
     SampleRegistrationOutcome outcome = SampleRegistrationOutcome::Success;
     std::string message;

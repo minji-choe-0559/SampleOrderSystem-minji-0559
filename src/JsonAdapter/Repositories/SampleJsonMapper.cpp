@@ -1,4 +1,4 @@
-#include "SampleRecord.h"
+#include "SampleJsonMapper.h"
 
 namespace SampleOrderSystem {
 

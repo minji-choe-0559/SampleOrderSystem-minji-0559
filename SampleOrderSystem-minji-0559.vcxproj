@@ -76,7 +76,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\JsonAdapter\Engine;$(ProjectDir)src\JsonAdapter\AtomicWrite;$(ProjectDir)src\JsonAdapter\Repositories;$(ProjectDir)src\ConsoleAdapter\Views;$(ProjectDir)src\ConsoleAdapter\ViewModels;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\Domain\Common;$(ProjectDir)src\Domain\Sample;$(ProjectDir)src\JsonAdapter\Engine;$(ProjectDir)src\JsonAdapter\AtomicWrite;$(ProjectDir)src\JsonAdapter\Repositories;$(ProjectDir)src\Application\Ports;$(ProjectDir)src\Application\UseCases;$(ProjectDir)src\Application\Dto;$(ProjectDir)src\ConsoleAdapter\Views;$(ProjectDir)src\ConsoleAdapter\Controllers;$(ProjectDir)tests\fakes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -94,7 +94,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\JsonAdapter\Engine;$(ProjectDir)src\JsonAdapter\AtomicWrite;$(ProjectDir)src\JsonAdapter\Repositories;$(ProjectDir)src\ConsoleAdapter\Views;$(ProjectDir)src\ConsoleAdapter\ViewModels;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\Domain\Common;$(ProjectDir)src\Domain\Sample;$(ProjectDir)src\JsonAdapter\Engine;$(ProjectDir)src\JsonAdapter\AtomicWrite;$(ProjectDir)src\JsonAdapter\Repositories;$(ProjectDir)src\Application\Ports;$(ProjectDir)src\Application\UseCases;$(ProjectDir)src\Application\Dto;$(ProjectDir)src\ConsoleAdapter\Views;$(ProjectDir)src\ConsoleAdapter\Controllers;$(ProjectDir)tests\fakes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -110,7 +110,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\JsonAdapter\Engine;$(ProjectDir)src\JsonAdapter\AtomicWrite;$(ProjectDir)src\JsonAdapter\Repositories;$(ProjectDir)src\ConsoleAdapter\Views;$(ProjectDir)src\ConsoleAdapter\ViewModels;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\Domain\Common;$(ProjectDir)src\Domain\Sample;$(ProjectDir)src\JsonAdapter\Engine;$(ProjectDir)src\JsonAdapter\AtomicWrite;$(ProjectDir)src\JsonAdapter\Repositories;$(ProjectDir)src\Application\Ports;$(ProjectDir)src\Application\UseCases;$(ProjectDir)src\Application\Dto;$(ProjectDir)src\ConsoleAdapter\Views;$(ProjectDir)src\ConsoleAdapter\Controllers;$(ProjectDir)tests\fakes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,7 +128,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\JsonAdapter\Engine;$(ProjectDir)src\JsonAdapter\AtomicWrite;$(ProjectDir)src\JsonAdapter\Repositories;$(ProjectDir)src\ConsoleAdapter\Views;$(ProjectDir)src\ConsoleAdapter\ViewModels;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\Domain\Common;$(ProjectDir)src\Domain\Sample;$(ProjectDir)src\JsonAdapter\Engine;$(ProjectDir)src\JsonAdapter\AtomicWrite;$(ProjectDir)src\JsonAdapter\Repositories;$(ProjectDir)src\Application\Ports;$(ProjectDir)src\Application\UseCases;$(ProjectDir)src\Application\Dto;$(ProjectDir)src\ConsoleAdapter\Views;$(ProjectDir)src\ConsoleAdapter\Controllers;$(ProjectDir)tests\fakes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -149,11 +149,23 @@
     <ClCompile Include="src\JsonAdapter\Engine\JsonWriter.cpp" />
     <ClCompile Include="src\JsonAdapter\AtomicWrite\AtomicWrite.cpp" />
     <ClCompile Include="src\JsonAdapter\AtomicWrite\Win32AtomicFileOperations.cpp" />
-    <ClCompile Include="src\JsonAdapter\Repositories\Guid.cpp" />
+    <ClCompile Include="src\Domain\Common\Guid.cpp" />
     <ClCompile Include="src\JsonAdapter\Repositories\SampleDocument.cpp" />
-    <ClCompile Include="src\JsonAdapter\Repositories\SampleRecord.cpp" />
+    <ClCompile Include="src\JsonAdapter\Repositories\SampleJsonMapper.cpp" />
     <ClCompile Include="src\JsonAdapter\Repositories\SampleRepository.cpp" />
     <ClCompile Include="src\ConsoleAdapter\Views\ConsoleView.cpp" />
+    <ClCompile Include="src\ConsoleAdapter\Views\ConsoleInputParsing.cpp" />
+    <ClCompile Include="src\ConsoleAdapter\Controllers\SampleController.cpp" />
+    <ClCompile Include="src\Application\UseCases\RegisterSampleUseCase.cpp" />
+    <ClCompile Include="src\Application\UseCases\ListSamplesUseCase.cpp" />
+    <ClCompile Include="src\Application\UseCases\SearchSampleUseCase.cpp" />
+    <ClCompile Include="tests\ConsoleInputParsingTest.cpp" />
+    <ClCompile Include="tests\RegisterSampleUseCaseTest.cpp" />
+    <ClCompile Include="tests\ListSamplesUseCaseTest.cpp" />
+    <ClCompile Include="tests\SearchSampleUseCaseTest.cpp" />
+    <ClCompile Include="tests\SampleControllerTest.cpp" />
+    <ClCompile Include="tests\SampleRepositoryIntegrationTest.cpp" />
+    <ClCompile Include="tests\ConsoleViewTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\JsonAdapter\Engine\JsonParser.h" />
@@ -163,15 +175,26 @@
     <ClInclude Include="src\JsonAdapter\AtomicWrite\AtomicWrite.h" />
     <ClInclude Include="src\JsonAdapter\AtomicWrite\IAtomicFileOperations.h" />
     <ClInclude Include="src\JsonAdapter\AtomicWrite\Win32AtomicFileOperations.h" />
-    <ClInclude Include="src\JsonAdapter\Repositories\Guid.h" />
+    <ClInclude Include="src\Domain\Common\Guid.h" />
     <ClInclude Include="src\JsonAdapter\Repositories\SampleDocument.h" />
-    <ClInclude Include="src\JsonAdapter\Repositories\SampleRecord.h" />
+    <ClInclude Include="src\JsonAdapter\Repositories\SampleJsonMapper.h" />
+    <ClInclude Include="src\Domain\Sample\SampleRecord.h" />
     <ClInclude Include="src\JsonAdapter\Repositories\SampleRepository.h" />
     <ClInclude Include="src\ConsoleAdapter\Views\ConsoleView.h" />
     <ClInclude Include="src\ConsoleAdapter\Views\IView.h" />
-    <ClInclude Include="src\ConsoleAdapter\ViewModels\SampleRegistrationInput.h" />
-    <ClInclude Include="src\ConsoleAdapter\ViewModels\SampleRegistrationResult.h" />
-    <ClInclude Include="src\ConsoleAdapter\ViewModels\SampleViewModel.h" />
+    <ClInclude Include="src\ConsoleAdapter\Views\ConsoleInputParsing.h" />
+    <ClInclude Include="src\ConsoleAdapter\Controllers\SampleController.h" />
+    <ClInclude Include="src\Application\Ports\ISampleRepository.h" />
+    <ClInclude Include="src\Application\UseCases\RegisterSampleUseCase.h" />
+    <ClInclude Include="src\Application\UseCases\ListSamplesUseCase.h" />
+    <ClInclude Include="src\Application\UseCases\SearchSampleUseCase.h" />
+    <ClInclude Include="src\Application\UseCases\TextMatch.h" />
+    <ClInclude Include="src\Application\UseCases\SampleViewModelMapper.h" />
+    <ClInclude Include="src\Application\Dto\SampleRegistrationInput.h" />
+    <ClInclude Include="src\Application\Dto\SampleRegistrationResult.h" />
+    <ClInclude Include="src\Application\Dto\SampleViewModel.h" />
+    <ClInclude Include="tests\fakes\FakeSampleRepository.h" />
+    <ClInclude Include="tests\fakes\FakeView.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
