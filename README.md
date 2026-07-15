@@ -9,7 +9,7 @@
 
 ## 1. 현재 상태
 
-**Phase 0 착수 전 — 문서/저장소 골격만 준비된 상태.** 아직 도메인 코드는 없다.
+**Phase 0 진행 중 — 프로젝트 골격과 Harness는 갖춰졌고, 도메인 코드는 아직 없다.**
 
 | 항목 | 상태 |
 |---|---|
@@ -19,8 +19,10 @@
 | `.claude/agents/`(code-reviewer / test-auditor / refactoring-specialist) | 작성 완료 |
 | 원본 명세 PDF | `docs/` 안에 포함 |
 | `docs/UI_DESIGN_PROPOSAL.md` | 화면 구성 시안 작성(구속력 없음, PRD.md 5장 "화면 구성은 자유")— 3장의 미결정 사항 답변 대기 |
+| `src/JsonAdapter/*`, `src/ConsoleAdapter/{Views,ViewModels}` | DataPersistence/ConsoleMVC 소스를 이식·네임스페이스 정리·빌드 검증 완료 |
+| `src/ConsoleAdapter/Controllers`(`SampleController`) | 물리적으로만 복사, Application Port 미비로 `.vcxproj` 미편입(Phase 1 대상) |
 | 도메인 코드(Sample/Order/ProductionJob) | 미착수 (Phase 1부터) |
-| Harness(단일 verify 명령) | 미확정 (Phase 0에서 확정 예정) |
+| Harness(단일 verify 명령) | `verify.ps1` 확정 — Build(/W4 /WX, /utf-8)/Unit Test(0건 통과)/Format Check(clang-format) |
 
 ## 2. 문서 구조
 
@@ -54,8 +56,14 @@
 
 ## 5. 빌드/테스트 방법
 
-`TBD` — Phase 0에서 프로젝트 구조와 단일 verify 명령을 확정한 뒤 갱신한다. 추정 명령을 확정된
-것처럼 기재하지 않는다.
+```powershell
+powershell -ExecutionPolicy Bypass -File .\verify.ps1
+```
+
+`verify.ps1`(Build → Unit Test → Compiler Warning → Format Check)이 단일 진입점이다.
+Build는 `Directory.Build.props`가 전체 프로젝트에 적용하는 `/W4 /WX`(외부 벤더 헤더 제외)와
+`/utf-8`로 검증된다. 아직 테스트 프로젝트가 없어 Unit Test 단계는 "0건, 통과"로 처리된다
+(Phase 0 완료 조건, PLAN.md).
 
 ## 6. 실행 방법
 

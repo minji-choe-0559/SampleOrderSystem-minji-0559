@@ -17,4 +17,121 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{9c0b1f2a-1111-4a1a-9a1a-000000000001}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Composition">
+      <UniqueIdentifier>{9c0b1f2a-1111-4a1a-9a1a-000000000002}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\JsonAdapter">
+      <UniqueIdentifier>{9c0b1f2a-1111-4a1a-9a1a-000000000003}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\JsonAdapter\Engine">
+      <UniqueIdentifier>{9c0b1f2a-1111-4a1a-9a1a-000000000004}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\JsonAdapter\AtomicWrite">
+      <UniqueIdentifier>{9c0b1f2a-1111-4a1a-9a1a-000000000005}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\JsonAdapter\Repositories">
+      <UniqueIdentifier>{9c0b1f2a-1111-4a1a-9a1a-000000000006}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ConsoleAdapter">
+      <UniqueIdentifier>{9c0b1f2a-1111-4a1a-9a1a-000000000007}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ConsoleAdapter\Views">
+      <UniqueIdentifier>{9c0b1f2a-1111-4a1a-9a1a-000000000008}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ConsoleAdapter\ViewModels">
+      <UniqueIdentifier>{9c0b1f2a-1111-4a1a-9a1a-000000000009}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Composition\main.cpp">
+      <Filter>src\Composition</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JsonAdapter\Engine\JsonParser.cpp">
+      <Filter>src\JsonAdapter\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JsonAdapter\Engine\JsonStore.cpp">
+      <Filter>src\JsonAdapter\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JsonAdapter\Engine\JsonValue.cpp">
+      <Filter>src\JsonAdapter\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JsonAdapter\Engine\JsonWriter.cpp">
+      <Filter>src\JsonAdapter\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JsonAdapter\AtomicWrite\AtomicWrite.cpp">
+      <Filter>src\JsonAdapter\AtomicWrite</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JsonAdapter\AtomicWrite\Win32AtomicFileOperations.cpp">
+      <Filter>src\JsonAdapter\AtomicWrite</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JsonAdapter\Repositories\Guid.cpp">
+      <Filter>src\JsonAdapter\Repositories</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JsonAdapter\Repositories\SampleDocument.cpp">
+      <Filter>src\JsonAdapter\Repositories</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JsonAdapter\Repositories\SampleRecord.cpp">
+      <Filter>src\JsonAdapter\Repositories</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JsonAdapter\Repositories\SampleRepository.cpp">
+      <Filter>src\JsonAdapter\Repositories</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConsoleAdapter\Views\ConsoleView.cpp">
+      <Filter>src\ConsoleAdapter\Views</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\JsonAdapter\Engine\JsonParser.h">
+      <Filter>src\JsonAdapter\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JsonAdapter\Engine\JsonStore.h">
+      <Filter>src\JsonAdapter\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JsonAdapter\Engine\JsonValue.h">
+      <Filter>src\JsonAdapter\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JsonAdapter\Engine\JsonWriter.h">
+      <Filter>src\JsonAdapter\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JsonAdapter\AtomicWrite\AtomicWrite.h">
+      <Filter>src\JsonAdapter\AtomicWrite</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JsonAdapter\AtomicWrite\IAtomicFileOperations.h">
+      <Filter>src\JsonAdapter\AtomicWrite</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JsonAdapter\AtomicWrite\Win32AtomicFileOperations.h">
+      <Filter>src\JsonAdapter\AtomicWrite</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JsonAdapter\Repositories\Guid.h">
+      <Filter>src\JsonAdapter\Repositories</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JsonAdapter\Repositories\SampleDocument.h">
+      <Filter>src\JsonAdapter\Repositories</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JsonAdapter\Repositories\SampleRecord.h">
+      <Filter>src\JsonAdapter\Repositories</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JsonAdapter\Repositories\SampleRepository.h">
+      <Filter>src\JsonAdapter\Repositories</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConsoleAdapter\Views\ConsoleView.h">
+      <Filter>src\ConsoleAdapter\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConsoleAdapter\Views\IView.h">
+      <Filter>src\ConsoleAdapter\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConsoleAdapter\ViewModels\SampleRegistrationInput.h">
+      <Filter>src\ConsoleAdapter\ViewModels</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConsoleAdapter\ViewModels\SampleRegistrationResult.h">
+      <Filter>src\ConsoleAdapter\ViewModels</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConsoleAdapter\ViewModels\SampleViewModel.h">
+      <Filter>src\ConsoleAdapter\ViewModels</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
